@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "D:\\Projects\\envoy-agent"],
+      "env": {}
+    },
+    "excel": {
+      "command": "npx",
+      "args": ["-y", "@negokaz/excel-mcp-server"],
+      "env": {
+        "EXCEL_FILES_PATH": "D:\\Projects\\envoy-agent\\data\\spreadsheets"
+      }
+    }
+  }
+}
