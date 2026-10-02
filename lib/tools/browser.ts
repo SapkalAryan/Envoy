@@ -482,6 +482,19 @@ export async function runBrowserStep(step: PlanStep): Promise<StepResult> {
   const missionId = String(step.params.missionId || '');
   const page = await getPage(missionId);
 
+  // Start a screencast for this mission if not already started
+  if (missionId) {
+    const { getScreencast, registerScreencast } = await import('./browserStream');
+    if (!getScreencast(missionId)) {
+      try {
+        await registerScreencast(missionId, page);
+        console.log(`[browser] screencast started for mission ${missionId}`);
+      } catch (err) {
+        console.log(`[browser] screencast failed: ${(err as Error).message}`);
+      }
+    }
+  }
+
   try {
     const action = String(step.params.action || 'goto');
     const url = step.params.url as string | undefined;

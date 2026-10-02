@@ -9,6 +9,7 @@ import { ApprovalModal } from '@/components/ApprovalModal';
 import { useAgentStore } from '@/lib/store';
 import type { LogEntry, MissionRecord, MissionPlan } from '@/lib/types';
 import { ScheduledJobs } from '@/components/ScheduledJobs';
+import { OpenLiveButton } from '@/components/OpenLiveButton';
 
 interface PendingGate {
   missionId: string;
@@ -51,6 +52,8 @@ export default function DashboardPage() {
 
         setPlan(data.plan as MissionPlan);
         setMissionId(data.missionId as string);
+        // Auto-open the live view in a new tab
+        window.open(`/live/${data.missionId}`, `envoy-live-${data.missionId}`, 'width=1400,height=900');
         setStatus('executing');
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Unknown error');
@@ -152,6 +155,7 @@ export default function DashboardPage() {
       <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <CommandInput onSubmit={run} loading={running} />
+          <OpenLiveButton missionId={missionId} />
           {error && (
             <div className="border border-danger/40 bg-danger/10 text-danger text-sm p-4 rounded-lg">
               {error}
